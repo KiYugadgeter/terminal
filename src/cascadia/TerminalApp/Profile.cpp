@@ -33,6 +33,7 @@ static constexpr std::string_view FontFaceKey{ "fontFace" };
 static constexpr std::string_view FontSizeKey{ "fontSize" };
 static constexpr std::string_view AcrylicTransparencyKey{ "acrylicOpacity" };
 static constexpr std::string_view UseAcrylicKey{ "useAcrylic" };
+static constexpr std::string_view UseBlinkCursorKey{ "useBlinkCursor" }
 static constexpr std::string_view ScrollbarStateKey{ "scrollbarState" };
 static constexpr std::string_view CloseOnExitKey{ "closeOnExit" };
 static constexpr std::string_view PaddingKey{ "padding" };
@@ -85,6 +86,7 @@ Profile::Profile(const winrt::guid& guid) :
     _fontSize{ DEFAULT_FONT_SIZE },
     _acrylicTransparency{ 0.5 },
     _useAcrylic{ false },
+    _useBlinkCursor{ true },
     _scrollbarState{},
     _closeOnExit{ true },
     _padding{ DEFAULT_PADDING },
@@ -149,6 +151,7 @@ TerminalSettings Profile::CreateTerminalSettings(const std::vector<ColorScheme>&
 
     // Fill in the remaining properties from the profile
     terminalSettings.UseAcrylic(_useAcrylic);
+    terminalSettings.UseBlinkCursor(_useBlinkCursor);
     terminalSettings.CloseOnExit(_closeOnExit);
     terminalSettings.TintOpacity(_acrylicTransparency);
 
@@ -258,6 +261,7 @@ Json::Value Profile::ToJson() const
     root[JsonKey(FontSizeKey)] = _fontSize;
     root[JsonKey(AcrylicTransparencyKey)] = _acrylicTransparency;
     root[JsonKey(UseAcrylicKey)] = _useAcrylic;
+    root[JsonKey(UseBlinkCursorKey)] = _useBlinkCursor;
     root[JsonKey(CloseOnExitKey)] = _closeOnExit;
     root[JsonKey(PaddingKey)] = winrt::to_string(_padding);
 
@@ -402,6 +406,10 @@ Profile Profile::FromJson(const Json::Value& json)
     {
         result._useAcrylic = useAcrylic.asBool();
     }
+    if (auto useBlinkCursor{ json[JsonKey(UseBlinkCursorKey)] })
+    {
+        result._useBlinkCursor = useBlinkCursor.asBool();
+    }
     if (auto closeOnExit{ json[JsonKey(CloseOnExitKey)] })
     {
         result._closeOnExit = closeOnExit.asBool();
@@ -466,6 +474,11 @@ void Profile::SetStartingDirectory(std::wstring startingDirectory) noexcept
 void Profile::SetName(std::wstring name) noexcept
 {
     _name = name;
+}
+
+void Profile::SetUseBlinkCursor(bool useBlinkCursor) noexcept
+{
+    _useBlinkCursor = useBlinkCursor;
 }
 
 void Profile::SetUseAcrylic(bool useAcrylic) noexcept

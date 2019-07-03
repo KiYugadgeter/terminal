@@ -47,6 +47,7 @@ public:
     void SetStartingDirectory(std::wstring startingDirectory) noexcept;
     void SetName(std::wstring name) noexcept;
     void SetUseAcrylic(bool useAcrylic) noexcept;
+    void SetUseBlinkCursor(bool useBlinkCursor) noexcept;
     void SetDefaultForeground(COLORREF defaultForeground) noexcept;
     void SetDefaultBackground(COLORREF defaultBackground) noexcept;
 
@@ -87,6 +88,7 @@ private:
     int32_t _fontSize;
     double _acrylicTransparency;
     bool _useAcrylic;
+    bool _useBlinkCursor;
 
     std::optional<std::wstring> _backgroundImage;
     std::optional<double> _backgroundImageOpacity;

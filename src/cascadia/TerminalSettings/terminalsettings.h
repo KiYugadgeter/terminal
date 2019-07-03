@@ -49,6 +49,8 @@ namespace winrt::Microsoft::Terminal::Settings::implementation
 
         bool UseAcrylic();
         void UseAcrylic(bool value);
+        bool UseBlinkCursor();
+        void UseBlinkCursor(bool value);
         bool CloseOnExit();
         void CloseOnExit(bool value);
         double TintOpacity();
@@ -96,6 +98,7 @@ namespace winrt::Microsoft::Terminal::Settings::implementation
         uint32_t _cursorHeight;
 
         bool _useAcrylic;
+        bool _useBlinkCursor;
         bool _closeOnExit;
         double _tintOpacity;
         hstring _fontFace;

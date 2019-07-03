@@ -20,6 +20,7 @@ namespace winrt::Microsoft::Terminal::Settings::implementation
         _cursorColor{ DEFAULT_CURSOR_COLOR },
         _cursorShape{ CursorStyle::Vintage },
         _cursorHeight{ DEFAULT_CURSOR_HEIGHT },
+        _useBlinkCursor{ true },
         _useAcrylic{ false },
         _closeOnExit{ true },
         _tintOpacity{ 0.5 },
@@ -133,6 +134,16 @@ namespace winrt::Microsoft::Terminal::Settings::implementation
     void TerminalSettings::CursorHeight(uint32_t value)
     {
         _cursorHeight = value;
+    }
+
+    bool TerminalSettings::UseBlinkCursor()
+    {
+        return _useBlinkCursor;
+    }
+
+    bool TerminalSettings::UseBlinkCursor(bool value)
+    {
+        _useBlinkCursor = value;
     }
 
     bool TerminalSettings::UseAcrylic()

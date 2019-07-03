@@ -522,18 +522,26 @@ namespace winrt::Microsoft::Terminal::TerminalControl::implementation
         _terminal->SetScrollPositionChangedCallback(pfnScrollPositionChanged);
 
         // Set up blinking cursor
-        int blinkTime = GetCaretBlinkTime();
-        if (blinkTime != INFINITE)
+        if (_settings.useBlinkCursor())
         {
-            // Create a timer
-            _cursorTimer = std::make_optional(DispatcherTimer());
-            _cursorTimer.value().Interval(std::chrono::milliseconds(blinkTime));
-            _cursorTimer.value().Tick({ this, &TermControl::_BlinkCursor });
-            _cursorTimer.value().Start();
+            int blinkTime = GetCaretBlinkTime();
+            if (blinkTime != INFINITE)
+            {
+                // Create a timer
+                _cursorTimer = std::make_optional(DispatcherTimer());
+                _cursorTimer.value().Interval(std::chrono::milliseconds(blinkTime));
+                _cursorTimer.value().Tick({ this, &TermControl::_BlinkCursor });
+                _cursorTimer.value().Start();
+            }
+            else
+            {
+                // The user has disabled cursor blinking
+                _cursorTimer = std::nullopt;
+            }
         }
         else
         {
-            // The user has disabled cursor blinking
+            // The user has disabled cursor blinking by profile.
             _cursorTimer = std::nullopt;
         }
 
